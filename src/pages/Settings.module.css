@@ -1,0 +1,62 @@
+.container {
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--on-surface);
+  margin: 0;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.infoRow:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-size: 14px;
+  color: var(--on-surface-variant);
+}
+
+.value {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--on-surface);
+}
+
+.dangerZone {
+  border: 1px solid #fee2e2;
+  background-color: #fef2f2;
+}
+
+.dangerTitle {
+  color: #991b1b;
+}
+
+.dangerText {
+  font-size: 13px;
+  color: #b91c1c;
+  margin: 0;
+}

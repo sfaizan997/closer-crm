@@ -1,0 +1,168 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-gap);
+  max-width: 1280px;
+}
+
+.filtersRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.filtersLeft {
+  display: flex;
+  gap: var(--field-gap);
+  align-items: flex-end;
+}
+
+.searchField { width: 240px; }
+
+.rightActions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.tableCard {
+  padding: 0;
+  overflow: hidden;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table th {
+  background-color: var(--surface-dim);
+  padding: 11px 20px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--outline-variant);
+  white-space: nowrap;
+}
+
+.sortable {
+  cursor: pointer;
+  user-select: none;
+  display: table-cell;
+}
+
+.sortable:hover {
+  background-color: var(--surface-container);
+  color: var(--on-surface);
+}
+
+.sortIconInactive {
+  opacity: 0.35;
+}
+
+.table td {
+  padding: 11px 20px;
+  font-size: 13px;
+  color: var(--on-surface);
+  border-bottom: 1px solid var(--outline-variant);
+  white-space: nowrap;
+}
+
+.row {
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.row:nth-child(even) { background-color: #FAFBFC; }
+.row:hover { background-color: #EEF2FF !important; }
+.row:last-child td { border-bottom: none; }
+
+.nameCell { font-weight: 600; }
+.mono { font-variant-numeric: tabular-nums; }
+
+.sourceBadge {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 4px;
+  background-color: var(--surface-container);
+  color: var(--on-surface-variant);
+  border: 1px solid var(--outline-variant);
+}
+
+.followUp { font-size: 12px; color: var(--on-surface-variant); }
+
+.followUpDue {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--error);
+}
+
+.actionBtns {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.actionBtn {
+  height: 28px !important;
+  padding: 0 10px !important;
+  font-size: 12px !important;
+}
+
+.deleteBtn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--outline);
+  border-radius: 4px;
+  background: none;
+  color: var(--on-surface-variant);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.deleteBtn:hover {
+  background-color: var(--error-container);
+  border-color: var(--error);
+  color: var(--error);
+}
+
+.emptyState {
+  text-align: center;
+  padding: 56px;
+  color: var(--on-surface-variant);
+  border: none !important;
+}
+
+.emptyContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  opacity: 0.5;
+}
+
+.emptyContent p { margin: 0; font-size: 14px; }
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-top: 1px solid var(--outline-variant);
+  background-color: var(--surface);
+}
+
+.pageInfo { font-size: 13px; color: var(--on-surface-variant); }

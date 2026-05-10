@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Colors */
+  --surface: #FFFFFF;
+  --surface-dim: #F4F5F7;
+  --surface-container: #F0F1F4;
+  --surface-container-high: #E8EAEE;
+  --surface-container-highest: #DDE0E6;
+  --surface-container-low: #F7F8FA;
+  --surface-container-lowest: #FFFFFF;
+  --on-surface: #0F1117;
+  --on-surface-variant: #52586A;
+  --outline: #C2C8D6;
+  --outline-variant: #E2E5ED;
+  --primary: #1B2A4A;
+  --on-primary: #FFFFFF;
+  --primary-container: #E8EDF7;
+  --on-primary-container: #1B2A4A;
+  --secondary: #2563EB;
+  --on-secondary: #FFFFFF;
+  --secondary-container: #DBEAFE;
+  --on-secondary-container: #1D4ED8;
+  --tertiary: #16A34A;
+  --on-tertiary: #FFFFFF;
+  --tertiary-container: #DCFCE7;
+  --on-tertiary-container: #166534;
+  --error: #DC2626;
+  --on-error: #FFFFFF;
+  --error-container: #FEE2E2;
+  --on-error-container: #991B1B;
+  --warning: #D97706;
+  --warning-container: #FEF3C7;
+  --background: #F4F5F7;
+  --on-background: #0F1117;
+  --sidebar-bg: #1B2A4A;
+  --sidebar-text: #CBD5E1;
+  --sidebar-active: #2563EB;
+  --sidebar-active-text: #FFFFFF;
+  --tag-new: #DBEAFE;
+  --tag-new-text: #1D4ED8;
+  --tag-sold: #DCFCE7;
+  --tag-sold-text: #166534;
+  --tag-pending: #FEF3C7;
+  --tag-pending-text: #92400E;
+  --tag-lost: #FEE2E2;
+  --tag-lost-text: #991B1B;
+
+  /* Spacing */
+  --sidebar-width: 232px;
+  --header-height: 56px;
+  --content-padding: 32px;
+  --card-padding: 20px;
+  --field-gap: 16px;
+  --section-gap: 32px;
+  --row-height: 48px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--background);
+  color: var(--on-background);
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--on-surface);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input, textarea, select {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Typography Classes */
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.section-heading {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.field-label {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--on-surface-variant);
+}
+
+.field-value {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.caption {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.stat-number {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* Utility Classes */
+.card {
+  background-color: var(--surface);
+  border: 1px solid var(--outline-variant);
+  border-radius: 6px;
+  padding: var(--card-padding);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}

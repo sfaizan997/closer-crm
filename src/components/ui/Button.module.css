@@ -1,0 +1,40 @@
+.button {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.primary {
+  background-color: var(--secondary);
+  color: var(--on-secondary);
+}
+
+.primary:hover {
+  background-color: var(--on-secondary-container);
+}
+
+.secondary {
+  background-color: var(--surface);
+  color: var(--primary);
+  border: 1px solid var(--outline);
+}
+
+.secondary:hover {
+  background-color: var(--surface-dim);
+}
+
+.danger {
+  background-color: var(--error);
+  color: var(--on-error);
+}
+
+.danger:hover {
+  background-color: var(--on-error-container);
+}

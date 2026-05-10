@@ -1,0 +1,25 @@
+.statCard {
+  border-left-width: 3px;
+  border-left-style: solid;
+  border-left-color: var(--primary); /* default */
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--on-surface-variant);
+  margin-bottom: 8px;
+}
+
+.value {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--on-surface);
+}
+
+.new { border-left-color: var(--secondary); }
+.sold { border-left-color: var(--tertiary); }
+.pending { border-left-color: var(--warning); }
+.lost { border-left-color: var(--error); }

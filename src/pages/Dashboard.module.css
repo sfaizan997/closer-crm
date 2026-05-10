@@ -1,0 +1,241 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  max-width: 1280px;
+}
+
+.loading {
+  display: flex;
+  height: 400px;
+  align-items: center;
+  justify-content: center;
+  color: var(--on-surface-variant);
+  font-weight: 500;
+}
+
+.migrationBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background-color: var(--secondary-container);
+  color: var(--on-secondary-container);
+  border-radius: 8px;
+  border: 1px solid var(--secondary);
+  gap: 16px;
+}
+
+.migrationText {
+  font-size: 13px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.greeting {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--on-surface);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+}
+
+/* Two-column layout for main content + right panels */
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 24px;
+  align-items: start;
+}
+
+.rightCol {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Table Card */
+.tableCard {
+  padding: 0;
+  overflow: hidden;
+}
+
+.sideCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--on-surface);
+  margin: 0;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background-color: var(--error);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.tableWrapper { overflow-x: auto; }
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table th {
+  background-color: var(--surface-dim);
+  padding: 10px 20px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.table td {
+  padding: 12px 20px;
+  font-size: 13px;
+  color: var(--on-surface);
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.row {
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.row:nth-child(even) { background-color: #FAFBFC; }
+.row:hover { background-color: #EEF2FF !important; }
+.row:last-child td { border-bottom: none; }
+
+.nameCell { font-weight: 600; font-size: 13px; }
+.phoneMeta { font-size: 11px; color: var(--on-surface-variant); margin-top: 2px; }
+.premium { font-variant-numeric: tabular-nums; font-weight: 500; }
+
+.emptyState {
+  text-align: center;
+  padding: 48px;
+  color: var(--on-surface-variant);
+}
+
+.addLink {
+  background: none;
+  border: none;
+  color: var(--secondary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Follow-up list */
+.followUpList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.followUpItem {
+  padding: 8px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  border-left: 3px solid var(--error);
+  background-color: var(--error-container);
+  transition: opacity 0.15s;
+}
+
+.followUpItem:hover { opacity: 0.8; }
+
+.followUpName {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--on-error-container);
+}
+
+.followUpMeta {
+  font-size: 11px;
+  color: var(--on-surface-variant);
+  margin-top: 1px;
+}
+
+.sideEmpty {
+  font-size: 13px;
+  color: var(--on-surface-variant);
+  margin: 0;
+  padding: 8px 0;
+}
+
+/* Carrier Breakdown */
+.carrierRow {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.carrierName {
+  font-size: 13px;
+  color: var(--on-surface);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.carrierBar {
+  width: 80px;
+  height: 6px;
+  background-color: var(--surface-container-high);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.carrierFill {
+  height: 100%;
+  background-color: var(--tertiary);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.carrierCount {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--on-surface);
+  min-width: 16px;
+  text-align: right;
+}
