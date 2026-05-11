@@ -28,11 +28,11 @@
 
 .tableCard {
   padding: 0;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .tableWrapper {
-  overflow-x: auto;
+  overflow: visible;
 }
 
 .table {
