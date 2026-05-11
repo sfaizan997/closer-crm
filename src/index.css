@@ -45,6 +45,7 @@
   --tag-pending-text: #92400E;
   --tag-lost: #FEE2E2;
   --tag-lost-text: #991B1B;
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.06);
 
   /* Spacing */
   --sidebar-width: 232px;
@@ -65,10 +66,14 @@
   --surface-container-low: #0F172A;
   --surface-container-lowest: #020617;
   --on-surface: #F8FAFC;
-  --on-surface-variant: #94A3B8;
-  --outline: #475569;
-  --outline-variant: #334155;
-  --background: #0F172A;
+  --on-surface-variant: #CBD5E1;
+  --outline: #64748B;
+  --outline-variant: #475569;
+  --primary: #F8FAFC;
+  --on-primary: #0F1117;
+  --primary-container: #334155;
+  --on-primary-container: #F8FAFC;
+  --background: #020617;
   --on-background: #F8FAFC;
   --error-container: #7F1D1D;
   --on-error-container: #FEE2E2;
@@ -80,6 +85,7 @@
   --tag-pending-text: #FDE68A;
   --tag-lost: #7F1D1D;
   --tag-lost-text: #FECACA;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
 }
 
 * {
@@ -168,5 +174,5 @@ input, textarea, select {
   border: 1px solid var(--outline-variant);
   border-radius: 6px;
   padding: var(--card-padding);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  box-shadow: var(--card-shadow);
 }
