@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import ConfirmDialog from '../components/ui/ConfirmDialog';
@@ -8,32 +8,37 @@ import styles from './Settings.module.css';
 const Settings = () => {
   const toast = useToast();
   const [showClearDialog, setShowClearDialog] = useState(false);
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(t => t === 'light' ? 'dark' : 'light');
+  };
 
   const handleClearData = () => {
     localStorage.removeItem('fex_crm_leads');
     toast.success('All lead data has been cleared');
     setShowClearDialog(false);
-    // Reload to reset context state
     window.location.reload();
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.section}>
-        <h2 className={styles.sectionTitle}>Agent Profile</h2>
+        <h2 className={styles.sectionTitle}>Appearance</h2>
         <Card>
           <div className={styles.cardContent}>
             <div className={styles.infoRow}>
-              <span className={styles.label}>Name</span>
-              <span className={styles.value}>John Smith</span>
-            </div>
-            <div className={styles.infoRow}>
-              <span className={styles.label}>Role</span>
-              <span className={styles.value}>Agent</span>
-            </div>
-            <div className={styles.infoRow}>
-              <span className={styles.label}>License Number</span>
-              <span className={styles.value}>TX-987654321</span>
+              <span className={styles.label}>Theme</span>
+              <span className={styles.value}>
+                <Button variant="secondary" onClick={toggleTheme}>
+                  {theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                </Button>
+              </span>
             </div>
           </div>
         </Card>

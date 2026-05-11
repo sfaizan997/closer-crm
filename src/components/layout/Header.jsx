@@ -18,16 +18,18 @@ const Header = () => {
 
   const getBreadcrumbs = () => {
     const title = getPageTitle();
-    if (title === 'Dashboard') return 'Dashboard';
-    if (title === 'All Leads') return 'All Leads';
-    if (title === 'Settings' || title === 'Search') return title;
+    if (title === 'Dashboard') return null;
+    if (title === 'All Leads') return null;
+    if (title === 'Settings' || title === 'Search') return null;
     return `All Leads > ${title}`;
   };
+
+  const breadcrumbs = getBreadcrumbs();
 
   return (
     <header className={styles.header}>
       <div className={styles.left}>
-        <div className={styles.breadcrumb}>{getBreadcrumbs()}</div>
+        {breadcrumbs && <div className={styles.breadcrumb}>{breadcrumbs}</div>}
         <h1 className={styles.title}>{getPageTitle()}</h1>
       </div>
       <div className={styles.actions}>

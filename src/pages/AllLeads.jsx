@@ -17,7 +17,7 @@ const SortIcon = ({ field, sortField, sortDir }) => {
 
 const AllLeads = () => {
   const navigate = useNavigate();
-  const { leads, deleteLead } = useLeads();
+  const { leads, deleteLead, updateStatus } = useLeads();
   const toast = useToast();
 
   const [statusFilter, setStatusFilter] = useState('');
@@ -27,6 +27,8 @@ const AllLeads = () => {
   const [sortDir, setSortDir] = useState('desc');
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [selectedLeads, setSelectedLeads] = useState(new Set());
+  const [bulkStatus, setBulkStatus] = useState('');
 
   const handleSort = (field) => {
     if (sortField === field) {
@@ -79,6 +81,56 @@ const AllLeads = () => {
     a.click();
     URL.revokeObjectURL(url);
     toast.success(`Exported ${filteredLeads.length} leads to CSV`);
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedLeads.size === filteredLeads.length && filteredLeads.length > 0) {
+      setSelectedLeads(new Set());
+    } else {
+      setSelectedLeads(new Set(filteredLeads.map(l => l.id)));
+    }
+  };
+
+  const toggleSelectLead = (id, e) => {
+    e.stopPropagation();
+    const newSet = new Set(selectedLeads);
+    if (newSet.has(id)) {
+      newSet.delete(id);
+    } else {
+      newSet.add(id);
+    }
+    setSelectedLeads(newSet);
+  };
+
+  const handleBulkDelete = () => {
+    if (selectedLeads.size === 0) return;
+    if (!window.confirm(`Are you sure you want to delete ${selectedLeads.size} leads?`)) return;
+    setIsDeleting(true);
+    
+    const promises = Array.from(selectedLeads).map(id => deleteLead(id));
+    Promise.all(promises).then(() => {
+      toast.success(`Deleted ${selectedLeads.size} leads`);
+      setSelectedLeads(new Set());
+      setIsDeleting(false);
+    }).catch(err => {
+      toast.error('Failed to delete some leads');
+      console.error(err);
+      setIsDeleting(false);
+    });
+  };
+
+  const handleBulkStatus = (status) => {
+    if (selectedLeads.size === 0 || !status) return;
+    
+    const promises = Array.from(selectedLeads).map(id => updateStatus(id, status));
+    Promise.all(promises).then(() => {
+      toast.success(`Updated ${selectedLeads.size} leads to ${status}`);
+      setSelectedLeads(new Set());
+      setBulkStatus('');
+    }).catch(err => {
+      toast.error('Failed to update some leads');
+      console.error(err);
+    });
   };
 
   const handleDelete = () => {
@@ -167,6 +219,13 @@ const AllLeads = () => {
                   onClick={() => navigate(`/leads/${lead.id}`)}
                   className={styles.row}
                 >
+                  <td onClick={e => e.stopPropagation()}>
+                    <input
+                      type="checkbox"
+                      checked={selectedLeads.has(lead.id)}
+                      onChange={(e) => toggleSelectLead(lead.id, e)}
+                    />
+                  </td>
                   <td className={styles.nameCell}>{lead.name || 'Unnamed Lead'}</td>
                   <td className={styles.mono}>{lead.phone || '—'}</td>
                   <td onClick={e => e.stopPropagation()}>
@@ -203,7 +262,86 @@ const AllLeads = () => {
               ))}
               {filteredLeads.length === 0 && (
                 <tr>
-                  <td colSpan="8" className={styles.emptyState}>
+                  <td colSpan="9" className={styles.emptyState}>
+                    <div className={styles.emptyContent}>
+                      <Users size={32} />
+                      <p>No leads match your filters.</p>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+        <div className={styles.pagination}>
+          <span className={styles.pageInfo}>
+            Showing <strong>{filteredLeads.length}</strong> of <strong>{leads.length}</strong> leads
+          </span>
+        </div>
+      </Card>
+
+      <ConfirmDialog
+        isOpen={!!deleteTarget}
+        title="Delete Lead"
+        message={`Are you sure you want to permanently delete "${deleteTarget?.name}"? This action cannot be undone.`}
+        confirmLabel={isDeleting ? "Deleting..." : "Delete Lead"}
+        onConfirm={handleDelete}
+        onCancel={() => setDeleteTarget(null)}
+        disabled={isDeleting}
+      />
+    </div>
+  );
+};
+
+export default AllLeads;
+variant="secondary" className={styles.actionBtn}
+                        onClick={() => navigate(`/leads/${lead.id}`)}>Edit</Button>
+                      <button
+                        className={styles.deleteBtn}
+                        onClick={() => setDeleteTarget(lead)}
+                        title="Delete lead"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+              {filteredLeads.length === 0 && (
+                <tr>
+                  <td colSpan="9" className={styles.emptyState}>
+                    <div className={styles.emptyContent}>
+                      <Users size={32} />
+                      <p>No leads match your filters.</p>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+        <div className={styles.pagination}>
+          <span className={styles.pageInfo}>
+            Showing <strong>{filteredLeads.length}</strong> of <strong>{leads.length}</strong> leads
+          </span>
+        </div>
+      </Card>
+
+      <ConfirmDialog
+        isOpen={!!deleteTarget}
+        title="Delete Lead"
+        message={`Are you sure you want to permanently delete "${deleteTarget?.name}"? This action cannot be undone.`}
+        confirmLabel={isDeleting ? "Deleting..." : "Delete Lead"}
+        onConfirm={handleDelete}
+        onCancel={() => setDeleteTarget(null)}
+        disabled={isDeleting}
+      />
+    </div>
+  );
+};
+
+export default AllLeads;
+tyles.emptyState}>
                     <div className={styles.emptyContent}>
                       <Users size={32} />
                       <p>No leads match your filters.</p>

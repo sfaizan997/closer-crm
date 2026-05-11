@@ -31,6 +31,28 @@
   overflow: visible;
 }
 
+.bulkActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background-color: var(--primary-container);
+  border-bottom: 1px solid var(--outline-variant);
+  border-radius: 6px 6px 0 0;
+}
+
+.bulkCount {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--on-primary-container);
+}
+
+.bulkControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .tableWrapper {
   overflow: visible;
 }

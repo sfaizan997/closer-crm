@@ -21,6 +21,11 @@ const PageLoader = () => (
 );
 
 function App() {
+  React.useEffect(() => {
+    const theme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+  }, []);
+
   return (
     <AuthProvider>
       <LeadProvider>
