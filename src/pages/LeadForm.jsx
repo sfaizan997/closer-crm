@@ -164,6 +164,32 @@ const LeadForm = () => {
 
       <div className={styles.layout}>
         <div className={styles.mainCol}>
+          
+          {/* AI Smart Fill */}
+          {isNew && (
+            <Card className={styles.aiCard}>
+              <div className={styles.aiHeader}>
+                <h3 className={styles.sectionHeading}>✨ AI Smart Fill</h3>
+                <span className={styles.aiBadge}>Beta</span>
+              </div>
+              <p className={styles.aiDescription}>Paste raw notes or lead data here to automatically populate the form.</p>
+              <div className={styles.aiActionArea}>
+                <textarea
+                  className={styles.aiTextarea}
+                  placeholder="e.g. Alice Jones 555-0123. Born 5/12/1980. Non-smoker. Call her back in 2 weeks..."
+                  value={aiInput}
+                  onChange={(e) => setAiInput(e.target.value)}
+                />
+                <Button 
+                  onClick={handleAiSmartFill} 
+                  disabled={isProcessingAi || !aiInput.trim()}
+                  variant="secondary"
+                >
+                  {isProcessingAi ? 'Analyzing...' : 'Auto-Fill Form'}
+                </Button>
+              </div>
+            </Card>
+          )}
 
           {/* Contact Info */}
           <Card className={styles.formCard}>

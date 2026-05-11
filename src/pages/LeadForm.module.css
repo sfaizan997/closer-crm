@@ -97,6 +97,59 @@
   border: 1px solid #FDE68A;
 }
 
+/* AI Smart Fill */
+.aiCard {
+  border: 1px solid var(--secondary-container);
+  background: linear-gradient(to bottom right, var(--surface), var(--secondary-container));
+}
+
+.aiHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.aiBadge {
+  font-size: 10px;
+  font-weight: 700;
+  background-color: var(--secondary);
+  color: white;
+  padding: 1px 6px;
+  border-radius: 10px;
+  text-transform: uppercase;
+}
+
+.aiDescription {
+  font-size: 12px;
+  color: var(--on-surface-variant);
+  margin-bottom: 12px;
+}
+
+.aiActionArea {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.aiTextarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px 12px;
+  border: 1px solid var(--outline);
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 13px;
+  background-color: var(--surface);
+  color: var(--on-surface);
+  resize: vertical;
+}
+
+.aiTextarea:focus {
+  border-color: var(--secondary);
+  outline: none;
+}
+
 .maskedField input {
   font-family: monospace;
   letter-spacing: 0.1em;
