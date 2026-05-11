@@ -126,6 +126,21 @@ export const LeadProvider = ({ children }) => {
     }
   }, [user]);
 
+  const bulkAddLeads = useCallback(async (leadsArray) => {
+    if (!user || !Array.isArray(leadsArray)) return 0;
+    const leadsRef = collection(db, 'users', user.uid, 'leads');
+    let count = 0;
+    for (const lead of leadsArray) {
+      const { id, ...data } = lead;
+      await addDoc(leadsRef, {
+        ...data,
+        createdAt: data.createdAt || serverTimestamp(),
+      });
+      count++;
+    }
+    return count;
+  }, [user]);
+
   const value = useMemo(() => ({
     leads, 
     loading, 
@@ -135,8 +150,9 @@ export const LeadProvider = ({ children }) => {
     getLead, 
     addNote, 
     updateStatus,
-    migrateLocalData
-  }), [leads, loading, addLead, updateLead, deleteLead, getLead, addNote, updateStatus, migrateLocalData]);
+    migrateLocalData,
+    bulkAddLeads
+  }), [leads, loading, addLead, updateLead, deleteLead, getLead, addNote, updateStatus, migrateLocalData, bulkAddLeads]);
 
   return (
     <LeadContext.Provider value={value}>

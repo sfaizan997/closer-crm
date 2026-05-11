@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import ConfirmDialog from '../components/ui/ConfirmDialog';
+import { useLeads } from '../context/LeadContext';
 import { useToast } from '../context/ToastContext';
 import styles from './Settings.module.css';
 
 const Settings = () => {
   const toast = useToast();
+  const { leads, bulkAddLeads } = useLeads();
   const [showClearDialog, setShowClearDialog] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -17,6 +20,42 @@ const Settings = () => {
 
   const toggleTheme = () => {
     setTheme(t => t === 'light' ? 'dark' : 'light');
+  };
+
+  const handleDownloadBackup = () => {
+    const data = JSON.stringify(leads, null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `fex_crm_backup_${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success('Backup file downloaded successfully');
+  };
+
+  const handleRestoreBackup = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      try {
+        const importedLeads = JSON.parse(event.target.result);
+        if (!Array.isArray(importedLeads)) {
+          throw new Error('Invalid backup file format');
+        }
+        
+        const count = await bulkAddLeads(importedLeads);
+        toast.success(`Successfully restored ${count} leads from backup!`);
+      } catch (err) {
+        toast.error('Failed to restore backup: ' + err.message);
+        console.error(err);
+      }
+    };
+    reader.readAsText(file);
+    // Reset file input
+    e.target.value = '';
   };
 
   const handleClearData = () => {
@@ -45,6 +84,37 @@ const Settings = () => {
       </div>
 
       <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Data Management</h2>
+        <Card>
+          <div className={styles.cardContent}>
+            <div className={styles.infoRow}>
+              <span className={styles.label}>Export Data</span>
+              <span className={styles.value}>
+                <Button variant="secondary" onClick={handleDownloadBackup}>
+                  Download JSON Backup
+                </Button>
+              </span>
+            </div>
+            <div className={styles.infoRow}>
+              <span className={styles.label}>Import Data</span>
+              <span className={styles.value}>
+                <input
+                  type="file"
+                  accept=".json"
+                  onChange={handleRestoreBackup}
+                  ref={fileInputRef}
+                  style={{ display: 'none' }}
+                />
+                <Button variant="secondary" onClick={() => fileInputRef.current.click()}>
+                  Upload Backup File
+                </Button>
+              </span>
+            </div>
+          </div>
+        </Card>
+      </div>
+
+      <div className={styles.section}>
         <h2 className={styles.sectionTitle}>Application Info</h2>
         <Card>
           <div className={styles.cardContent}>
@@ -54,7 +124,7 @@ const Settings = () => {
             </div>
             <div className={styles.infoRow}>
               <span className={styles.label}>Storage Type</span>
-              <span className={styles.value}>Local (Browser)</span>
+              <span className={styles.value}>Cloud Sync + Offline Cache</span>
             </div>
           </div>
         </Card>
