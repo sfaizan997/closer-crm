@@ -65,44 +65,40 @@ const LeadForm = () => {
     setIsDirty(true);
   };
 
-  const handleSave = async () => {
+  const handleSave = () => {
     if (!formData.name.trim()) {
       toast.error('Lead name is required');
       return;
     }
     setIsSaving(true);
-    try {
-      if (isNew) {
-        await addLead(formData);
-        toast.success(`Lead "${formData.name}" added successfully`);
-        setIsDirty(false);
-        navigate('/leads');
-      } else {
-        await updateLead(id, formData);
-        toast.success(`Lead "${formData.name}" saved`);
-        setIsDirty(false);
-        navigate('/leads');
-      }
-    } catch (err) {
-      toast.error('Failed to save lead');
-      console.error(err);
-    } finally {
-      setIsSaving(false);
+    
+    if (isNew) {
+      addLead(formData).catch(err => {
+        toast.error('Failed to save lead');
+        console.error(err);
+      });
+      toast.success(`Lead "${formData.name}" added successfully`);
+    } else {
+      updateLead(id, formData).catch(err => {
+        toast.error('Failed to save lead');
+        console.error(err);
+      });
+      toast.success(`Lead "${formData.name}" saved`);
     }
+    
+    setIsDirty(false);
+    navigate('/leads');
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     setIsDeleting(true);
-    try {
-      await deleteLead(id);
-      toast.success(`Lead "${formData.name}" deleted`);
-      setShowDeleteDialog(false);
-      navigate('/leads');
-    } catch (err) {
+    deleteLead(id).catch(err => {
       toast.error('Failed to delete lead');
       console.error(err);
-      setIsDeleting(false);
-    }
+    });
+    toast.success(`Lead "${formData.name}" deleted`);
+    setShowDeleteDialog(false);
+    navigate('/leads');
   };
 
   const handleCancel = () => {
@@ -112,21 +108,20 @@ const LeadForm = () => {
     navigate('/leads');
   };
 
-  const handleAddNote = async () => {
+  const handleAddNote = () => {
     if (!newNote.trim()) return;
     if (isNew) {
       toast.warning('Save the lead first before adding notes.');
       return;
     }
-    try {
-      await addNote(id, newNote.trim());
-      setNewNote('');
-      toast.success('Note added');
-      // No need to manually refresh, Firestore onSnapshot will handle it
-    } catch (err) {
+    
+    addNote(id, newNote.trim()).catch(err => {
       toast.error('Failed to add note');
       console.error(err);
-    }
+    });
+    
+    setNewNote('');
+    toast.success('Note added');
   };
 
   const renderSensitive = (field, maskFn) => {

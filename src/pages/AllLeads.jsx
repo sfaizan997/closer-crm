@@ -81,19 +81,18 @@ const AllLeads = () => {
     toast.success(`Exported ${filteredLeads.length} leads to CSV`);
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     if (!deleteTarget) return;
     setIsDeleting(true);
-    try {
-      await deleteLead(deleteTarget.id);
-      toast.success(`Lead "${deleteTarget.name}" deleted`);
-      setDeleteTarget(null);
-    } catch (err) {
+    
+    deleteLead(deleteTarget.id).catch(err => {
       toast.error('Failed to delete lead');
       console.error(err);
-    } finally {
-      setIsDeleting(false);
-    }
+    });
+    
+    toast.success(`Lead "${deleteTarget.name}" deleted`);
+    setDeleteTarget(null);
+    setIsDeleting(false);
   };
 
   const uniqueSources = [...new Set(leads.map(l => l.leadSource).filter(Boolean))];
