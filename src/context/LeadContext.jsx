@@ -50,7 +50,7 @@ export const LeadProvider = ({ children }) => {
     return () => unsubscribe();
   }, [user]);
 
-  const addLead = async (leadData) => {
+  const addLead = useCallback(async (leadData) => {
     if (!user) return;
     const leadsRef = collection(db, 'users', user.uid, 'leads');
     const docRef = await addDoc(leadsRef, {
@@ -59,25 +59,25 @@ export const LeadProvider = ({ children }) => {
       createdAt: serverTimestamp(),
     });
     return docRef.id;
-  };
+  }, [user]);
 
-  const updateLead = async (id, updatedLead) => {
+  const updateLead = useCallback(async (id, updatedLead) => {
     if (!user) return;
     const leadRef = doc(db, 'users', user.uid, 'leads', id);
     await updateDoc(leadRef, updatedLead);
-  };
+  }, [user]);
 
-  const deleteLead = async (id) => {
+  const deleteLead = useCallback(async (id) => {
     if (!user) return;
     const leadRef = doc(db, 'users', user.uid, 'leads', id);
     await deleteDoc(leadRef);
-  };
+  }, [user]);
 
-  const getLead = (id) => {
+  const getLead = useCallback((id) => {
     return leads.find(lead => lead.id === id);
-  };
+  }, [leads]);
 
-  const addNote = async (leadId, text) => {
+  const addNote = useCallback(async (leadId, text) => {
     if (!user) return;
     const lead = getLead(leadId);
     if (!lead) return;
@@ -92,15 +92,15 @@ export const LeadProvider = ({ children }) => {
     await updateDoc(leadRef, {
       notes: [note, ...(lead.notes || [])]
     });
-  };
+  }, [user, getLead]);
 
-  const updateStatus = async (id, status) => {
+  const updateStatus = useCallback(async (id, status) => {
     if (!user) return;
     const leadRef = doc(db, 'users', user.uid, 'leads', id);
     await updateDoc(leadRef, { status });
-  };
+  }, [user]);
 
-  const migrateLocalData = async () => {
+  const migrateLocalData = useCallback(async () => {
     if (!user) return;
     try {
       const localLeads = JSON.parse(localStorage.getItem('fex_crm_leads') || '[]');
@@ -124,20 +124,22 @@ export const LeadProvider = ({ children }) => {
       console.error("Migration failed:", err);
       return 0;
     }
-  };
+  }, [user]);
+
+  const value = useMemo(() => ({
+    leads, 
+    loading, 
+    addLead, 
+    updateLead, 
+    deleteLead, 
+    getLead, 
+    addNote, 
+    updateStatus,
+    migrateLocalData
+  }), [leads, loading, addLead, updateLead, deleteLead, getLead, addNote, updateStatus, migrateLocalData]);
 
   return (
-    <LeadContext.Provider value={{ 
-      leads, 
-      loading, 
-      addLead, 
-      updateLead, 
-      deleteLead, 
-      getLead, 
-      addNote, 
-      updateStatus,
-      migrateLocalData
-    }}>
+    <LeadContext.Provider value={value}>
       {children}
     </LeadContext.Provider>
   );

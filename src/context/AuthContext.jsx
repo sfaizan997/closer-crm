@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useMemo, useCallback } from 'react';
 import { 
   onAuthStateChanged, 
   signInWithEmailAndPassword, 
@@ -28,25 +28,25 @@ export const AuthProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  const login = (email, password) => {
+  const login = useCallback((email, password) => {
     return signInWithEmailAndPassword(auth, email, password);
-  };
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     return signOut(auth);
-  };
+  }, []);
 
-  const signup = (email, password) => {
+  const signup = useCallback((email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
-  };
+  }, []);
 
-  const value = {
+  const value = useMemo(() => ({
     user,
     login,
     logout,
     signup,
     loading
-  };
+  }), [user, login, logout, signup, loading]);
 
   if (configError) {
     return (

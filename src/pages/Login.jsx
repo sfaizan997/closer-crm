@@ -8,13 +8,12 @@ import { useToast } from '../context/ToastContext';
 import styles from './Login.module.css';
 
 const Login = () => {
-  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   
-  const { login, signup } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -24,13 +23,8 @@ const Login = () => {
     setLoading(true);
 
     try {
-      if (isLogin) {
-        await login(email, password);
-        toast.success('Successfully logged in');
-      } else {
-        await signup(email, password);
-        toast.success('Account created successfully');
-      }
+      await login(email, password);
+      toast.success('Successfully logged in');
       navigate('/');
     } catch (err) {
       console.error(err);
@@ -47,9 +41,9 @@ const Login = () => {
         <div className={styles.brand}>
           <h2>FEX CRM</h2>
         </div>
-        <h3 className={styles.title}>{isLogin ? 'Welcome Back' : 'Create Account'}</h3>
+        <h3 className={styles.title}>Welcome Back</h3>
         <p className={styles.subtitle}>
-          {isLogin ? 'Sign in to access your leads' : 'Join the team and start closing'}
+          Sign in to access your leads
         </p>
 
         {error && <div className={styles.error}>{error}</div>}
@@ -72,19 +66,9 @@ const Login = () => {
             required
           />
           <Button type="submit" disabled={loading} style={{ marginTop: '8px' }}>
-            {loading ? 'Processing...' : (isLogin ? 'Sign In' : 'Create Account')}
+            {loading ? 'Processing...' : 'Sign In'}
           </Button>
         </form>
-
-        <div className={styles.toggle}>
-          {isLogin ? "Don't have an account?" : "Already have an account?"}
-          <button 
-            className={styles.toggleBtn} 
-            onClick={() => setIsLogin(!isLogin)}
-          >
-            {isLogin ? 'Sign Up' : 'Log In'}
-          </button>
-        </div>
       </Card>
     </div>
   );
