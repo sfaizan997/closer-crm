@@ -171,6 +171,7 @@ const LeadForm = () => {
             <div className={styles.grid}>
               <InputField label="Full Name *" id="name" value={formData.name} onChange={handleChange} />
               <InputField label="Phone" id="phone" value={formData.phone} onChange={handleChange} />
+              <InputField label="Address" id="address" value={formData.address || ''} onChange={handleChange} className={styles.fullWidth} />
               <InputField label="Email" id="email" type="email" value={formData.email} onChange={handleChange} />
               <InputField label="Date of Birth" id="dob" type="date" value={formData.dob} onChange={handleChange} />
               <SelectField label="Smoker" id="smoker" value={formData.smoker} onChange={handleChange}

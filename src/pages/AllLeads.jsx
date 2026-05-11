@@ -65,9 +65,9 @@ const AllLeads = () => {
   }, [leads, statusFilter, sourceFilter, search, sortField, sortDir]);
 
   const handleExportCSV = () => {
-    const headers = ['Name', 'Phone', 'Email', 'Status', 'Carrier', 'Premium', 'Coverage', 'Draft Date', 'Lead Source', 'Follow Up Date', 'DOB', 'Smoker'];
+    const headers = ['Name', 'Phone', 'Email', 'Address', 'Status', 'Carrier', 'Premium', 'Coverage', 'Draft Date', 'Lead Source', 'Follow Up Date', 'DOB', 'Smoker'];
     const rows = filteredLeads.map(l => [
-      l.name, l.phone, l.email, l.status, l.carrier, l.premium,
+      l.name, l.phone, l.email, l.address || '', l.status, l.carrier, l.premium,
       l.coverage, l.draftDate, l.leadSource, l.followUpDate, l.dob, l.smoker
     ]);
     const csv = [headers, ...rows]
