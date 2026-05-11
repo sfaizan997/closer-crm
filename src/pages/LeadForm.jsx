@@ -34,6 +34,77 @@ const LeadForm = () => {
   const [newNote, setNewNote] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [aiInput, setAiInput] = useState('');
+  const [isProcessingAi, setIsProcessingAi] = useState(false);
+
+  const handleAiSmartFill = async () => {
+    if (!aiInput.trim()) {
+      toast.warning('Please paste some lead notes first');
+      return;
+    }
+
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    if (!apiKey) {
+      toast.error('Gemini API Key is missing. Please add it to your .env.local file.');
+      return;
+    }
+
+    setIsProcessingAi(true);
+    try {
+      const genAI = new GoogleGenerativeAI(apiKey);
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+      const prompt = `
+        Extract lead information from the following raw notes and return ONLY a valid JSON object.
+        If a piece of information is missing, use an empty string.
+        
+        Fields to extract:
+        - full_name: The person's name.
+        - phone: Contact number.
+        - dob: Date of birth (format YYYY-MM-DD).
+        - smoker: "Yes" if nicotine/tobacco/smoking is mentioned, "No" otherwise.
+        - height: e.g., 5'10.
+        - weight: e.g., 185 lbs.
+        - follow_up_date: If the notes mention a timeframe like "call next month" or "in 2 weeks", calculate the date starting from today (${new Date().toISOString().split('T')[0]}) and return in YYYY-MM-DD.
+        - activity_note: A concise summary of specific medical or policy instructions mentioned (e.g., "No medical issues", "Wants term life").
+
+        RAW NOTES:
+        ${aiInput}
+      `;
+
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      let text = response.text();
+      
+      text = text.replace(/```json|```/g, '').trim();
+      const aiData = JSON.parse(text);
+
+      setFormData(prev => ({
+        ...prev,
+        name: aiData.full_name || prev.name,
+        phone: aiData.phone || prev.phone,
+        dob: aiData.dob || prev.dob,
+        smoker: aiData.smoker || prev.smoker,
+        height: aiData.height || prev.height,
+        weight: aiData.weight || prev.weight,
+        followUpDate: aiData.follow_up_date || prev.followUpDate,
+      }));
+
+      if (aiData.activity_note) {
+        setNewNote(aiData.activity_note);
+        toast.info('AI extracted an activity note. Click "Add Note" to save it!');
+      }
+
+      toast.success('Lead details extracted successfully!');
+      setAiInput('');
+      setIsDirty(true);
+    } catch (err) {
+      console.error("AI Error:", err);
+      toast.error('AI failed to process notes.');
+    } finally {
+      setIsProcessingAi(false);
+    }
+  };
 
   useEffect(() => {
     if (id) {
