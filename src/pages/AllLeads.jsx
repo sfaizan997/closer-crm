@@ -92,7 +92,6 @@ const AllLeads = () => {
   };
 
   const toggleSelectLead = (id, e) => {
-    e.stopPropagation();
     const newSet = new Set(selectedLeads);
     if (newSet.has(id)) {
       newSet.delete(id);
@@ -194,10 +193,42 @@ const AllLeads = () => {
       </div>
 
       <Card className={styles.tableCard}>
+        {selectedLeads.size > 0 && (
+          <div className={styles.bulkActions}>
+            <span className={styles.bulkCount}>{selectedLeads.size} selected</span>
+            <div className={styles.bulkControls}>
+              <SelectField
+                id="bulkStatus"
+                value={bulkStatus}
+                onChange={e => {
+                  setBulkStatus(e.target.value);
+                  handleBulkStatus(e.target.value);
+                }}
+                options={[
+                  { label: 'Set Status...', value: '' },
+                  { label: 'New', value: 'New' },
+                  { label: 'Pending', value: 'Pending' },
+                  { label: 'Sold', value: 'Sold' },
+                  { label: 'Lost', value: 'Lost' },
+                ]}
+              />
+              <Button variant="danger" onClick={handleBulkDelete}>
+                <Trash2 size={14} /> Delete Selected
+              </Button>
+            </div>
+          </div>
+        )}
         <div className={styles.tableWrapper}>
           <table className={styles.table}>
             <thead>
               <tr>
+                <th style={{ width: '40px' }}>
+                  <input
+                    type="checkbox"
+                    checked={filteredLeads.length > 0 && selectedLeads.size === filteredLeads.length}
+                    onChange={toggleSelectAll}
+                  />
+                </th>
                 <th className={styles.sortable} onClick={() => handleSort('name')}>
                   Name <SortIcon field="name" sortField={sortField} sortDir={sortDir} />
                 </th>
