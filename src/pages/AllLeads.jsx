@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Download, ArrowUpDown, ArrowUp, ArrowDown, Trash2 } from 'lucide-react';
+import { Download, ArrowUpDown, ArrowUp, ArrowDown, Trash2, Users } from 'lucide-react';
 import Card from '../components/ui/Card';
 import InlineStatus from '../components/ui/InlineStatus';
 import Button from '../components/ui/Button';
@@ -83,6 +83,7 @@ const AllLeads = () => {
 
   const handleDelete = async () => {
     if (!deleteTarget) return;
+    setIsDeleting(true);
     try {
       await deleteLead(deleteTarget.id);
       toast.success(`Lead "${deleteTarget.name}" deleted`);
@@ -90,6 +91,8 @@ const AllLeads = () => {
     } catch (err) {
       toast.error('Failed to delete lead');
       console.error(err);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -233,4 +236,3 @@ const AllLeads = () => {
 };
 
 export default AllLeads;
-lLeads;

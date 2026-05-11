@@ -32,6 +32,8 @@ const LeadForm = () => {
   const [isDirty, setIsDirty] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [newNote, setNewNote] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -90,13 +92,16 @@ const LeadForm = () => {
   };
 
   const handleDelete = async () => {
+    setIsDeleting(true);
     try {
       await deleteLead(id);
       toast.success(`Lead "${formData.name}" deleted`);
+      setShowDeleteDialog(false);
       navigate('/leads');
     } catch (err) {
       toast.error('Failed to delete lead');
       console.error(err);
+      setIsDeleting(false);
     }
   };
 
@@ -150,14 +155,14 @@ const LeadForm = () => {
     <div className={styles.container}>
       <div className={styles.topBar}>
         <div className={styles.actions}>
-          <Button variant="secondary" onClick={handleCancel}>Cancel</Button>
+          <Button variant="secondary" onClick={handleCancel} disabled={isSaving || isDeleting}>Cancel</Button>
           {!isNew && (
-            <Button variant="danger" onClick={() => setShowDeleteDialog(true)}>
+            <Button variant="danger" onClick={() => setShowDeleteDialog(true)} disabled={isSaving || isDeleting}>
               <Trash2 size={14} /> Delete Lead
             </Button>
           )}
-          <Button onClick={handleSave}>
-            {isDirty ? '● Save Changes' : 'Save Lead'}
+          <Button onClick={handleSave} disabled={isSaving || isDeleting}>
+            {isSaving ? 'Saving...' : isDirty ? '● Save Changes' : 'Save Lead'}
           </Button>
         </div>
       </div>
