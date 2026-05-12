@@ -69,8 +69,12 @@ const LeadForm = () => {
         - smoker: "Yes" if nicotine/tobacco/smoking is mentioned, "No" otherwise.
         - height: e.g., 5'10.
         - weight: e.g., 185 lbs.
+        - carrier: Insurance carrier name (e.g., Mutual of Omaha, Lincoln).
+        - coverage: Coverage amount (e.g., $10,000).
+        - premium: Monthly premium amount (e.g., $85.00).
+        - current_policy_note: Any specific notes about their current or desired policy.
         - follow_up_date: If the notes mention a timeframe like "call next month" or "in 2 weeks", calculate the date starting from today (${new Date().toISOString().split('T')[0]}) and return in YYYY-MM-DD.
-        - activity_note: A concise summary of specific medical or policy instructions mentioned (e.g., "No medical issues", "Wants term life").
+        - activity_note: A concise summary of specific medical or overall instructions mentioned (e.g., "No medical issues", "Wants term life").
 
         RAW NOTES:
         ${aiInput}
@@ -91,6 +95,10 @@ const LeadForm = () => {
         smoker: aiData.smoker || prev.smoker,
         height: aiData.height || prev.height,
         weight: aiData.weight || prev.weight,
+        carrier: aiData.carrier || prev.carrier,
+        coverage: aiData.coverage || prev.coverage,
+        premium: aiData.premium || prev.premium,
+        currentPolicyNote: aiData.current_policy_note || prev.currentPolicyNote,
         followUpDate: aiData.follow_up_date || prev.followUpDate,
       }));
 
