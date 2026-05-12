@@ -8,6 +8,7 @@ import { InputField, TextAreaField, SelectField } from '../components/ui/FormFie
 import { useLeads } from '../context/LeadContext';
 import { useToast } from '../context/ToastContext';
 import { maskSSN, maskAccountNumber } from '../utils/masking';
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import styles from './LeadForm.module.css';
 
 const emptyLead = {
@@ -52,7 +53,10 @@ const LeadForm = () => {
     setIsProcessingAi(true);
     try {
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ 
+        model: "gemini-1.5-flash",
+        generationConfig: { responseMimeType: "application/json" }
+      });
 
       const prompt = `
         Extract lead information from the following raw notes and return ONLY a valid JSON object.
@@ -100,7 +104,7 @@ const LeadForm = () => {
       setIsDirty(true);
     } catch (err) {
       console.error("AI Error:", err);
-      toast.error('AI failed to process notes.');
+      toast.error(err.message ? `AI Error: ${err.message}` : 'AI failed to process notes.');
     } finally {
       setIsProcessingAi(false);
     }
